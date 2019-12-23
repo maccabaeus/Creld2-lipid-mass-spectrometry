@@ -1,0 +1,36 @@
+QUERYNAME = PIIS; 
+DEFINE PR1 = 'C[43] H[82]  P[1] O[13]' WITH  CHG = -1;
+DEFINE PR2 = 'C[43] H[82]  P[1] O[13]' WITH  CHG = -1;
+DEFINE ID = 'C[6] H[10] O[8] P[1]' WITH DBR = (1.5,4.5), CHG = -1; # ID is the PI head 241.011
+
+
+
+IDENTIFY
+
+PR1 IN MS1- 
+AND PR2 IN MS2-
+AND ID IN MS2-
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])
+
+AND PR1.chemsc == PR2.chemsc
+
+AND PR1.chemsc[db] > 3
+
+
+
+
+REPORT
+
+NAME = "PI(%d:%d)" % ((PR1.chemsc[C] - 9), (PR1.chemsc[db] - 3));
+CLASS = "PHIN";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+db = "%d" %  (PR1.chemsc[db] - 3);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 84.7;
+INT = PR2.intensity; ;

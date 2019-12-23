@@ -1,0 +1,26 @@
+QUERYNAME = PE; 
+DEFINE PR1 = 'C[39..45] H[70..100] N[1] P[1] O[8]' WITH DBR = (1.5,9), CHG = 1;
+DEFINE ID = 'C2 H8 P1 N1 O4' WITH CHG = 0; # ID is the PE NL141 head
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isOdd(PR1.chemsc[H])
+AND PR1.chemsc[C] - PR1.chemsc[db] > 29
+
+REPORT
+NAME = "PE(%d:%d)" % ((PR1.chemsc[C] - 5), (PR1.chemsc[db] - 1));
+CLASS = "PETA";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 5);
+db = "%d" %  (PR1.chemsc[db] - 1);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 210.4;
+INT = ID.intensity; ;

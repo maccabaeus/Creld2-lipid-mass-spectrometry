@@ -1,0 +1,24 @@
+QUERYNAME = PG; 
+DEFINE PR1 = 'C[38..42] H[60..100] O[10] N1 P[1]' WITH DBR = (0.5,8.5), CHG = 1;
+DEFINE PR3 = 'C[34] H[71] O[10] N1 P[1]' WITH  CHG = 1;DEFINE ID = 'H12 P1 C3 O6 N1' WITH CHG = 0;DEFINE P343 = 'C[40] H[77] O[10] N1 P[1]' WITH  CHG = 1;DEFINE P364 = 'C[42] H[79] O[10] N1 P[1]' WITH CHG = 1;
+DEFINE P360 = 'C[42] H[87] O[10] N1 P[1]' WITH CHG = 1;
+IDENTIFY 	PR1 IN MS1+  ANDID IN MS2+ ANDNOT PR3 in MS1+
+AND NOT P343 IN MS1+
+AND NOT P364 IN MS1+
+AND NOT P360 IN MS1+
+SUCHTHAT isEven(PR1.chemsc[C]) ANDisOdd(PR1.chemsc[H])
+
+
+REPORT
+
+NAME = "PG(%d:%d)" % ((PR1.chemsc[C] - 6), (PR1.chemsc[db] - 0.5));
+CLASS = "PHGL";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 6);
+db = "%d" %  (PR1.chemsc[db]);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 51.6;
+INT = ID.intensity; ;

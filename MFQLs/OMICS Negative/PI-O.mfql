@@ -1,0 +1,35 @@
+QUERYNAME = PIO; 
+DEFINE PR1 = 'C[30..55] H[50..130]  P[1] O[12]' WITH DBR = (1.5,12), CHG = -1;
+DEFINE PR2 = 'C[30..55] H[50..130]  P[1] O[12]' WITH DBR = (1.5,12), CHG = -1;
+DEFINE ID = 'C[6] H[10] O[8] P[1]' WITH DBR = (1.5,4.5), CHG = -1; # ID is the PI head
+
+IDENTIFY
+
+PR1 IN MS1- 
+AND PR2 IN MS2-
+AND ID IN MS2-
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])
+
+AND PR1.chemsc == PR2.chemsc
+#AND PR1.intensity > 10#AND PR2.intensity > 10#AND ID.intensity > 10
+AND PR1.chemsc[db] > 3
+
+
+
+REPORT
+
+NAME = "PI-O(%d:%d)" % ((PR1.chemsc[C] - 9), (PR1.chemsc[db] - 2));
+CLASS = "PHIN";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 9);
+db = "%d" %  (PR1.chemsc[db] - 3);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 84.7;
+INT = PR2.intensity; ;
+

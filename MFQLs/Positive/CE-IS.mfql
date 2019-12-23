@@ -1,0 +1,25 @@
+QUERYNAME = CEIS; 
+DEFINE PR1 = 'C44 H80 N1 O2' WITH CHG = 1;
+DEFINE ID = 'C27 H45' WITH CHG = 1;
+
+
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+
+REPORT
+
+NAME = "CE(%d:%d)" % ((PR1.chemsc[C] - 27), (PR1.chemsc[db] - 4));
+CLASS = "CHES";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 27);
+db = "%d" %  (PR1.chemsc[db] - 4);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 111.6;
+INT = ID.intensity; ;

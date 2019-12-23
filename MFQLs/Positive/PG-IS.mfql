@@ -1,0 +1,17 @@
+QUERYNAME = PGIS; 
+DEFINE PR1 = 'C[34] H[71] O[10] N1 P[1]' WITH CHG = 1;DEFINE ID = 'H12 P1 C3 O6 N1' WITH CHG = 0;IDENTIFY 	PR1 IN MS1+  ANDID IN MS2+SUCHTHAT isEven(PR1.chemsc[C]) ANDisOdd(PR1.chemsc[H])
+
+
+REPORT
+
+NAME = "PG(%d:%d)" % ((PR1.chemsc[C] - 6), (PR1.chemsc[db] - 0.5));
+CLASS = "PHGL";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C]);
+db = "%d" %  (PR1.chemsc[db]);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 51.6;
+INT = ID.intensity; ;

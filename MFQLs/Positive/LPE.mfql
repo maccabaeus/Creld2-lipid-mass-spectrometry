@@ -1,0 +1,36 @@
+QUERYNAME = LPE; 
+DEFINE PR1 = 'C[17..31] H[40..50] N[1] P[1] O[7]' WITH DBR = (0.5,8), CHG = 1;
+DEFINE PR2 = 'C[17..31] H[40..50] N[1] P[1] O[7]' WITH DBR = (0.5,8), CHG = 1;
+DEFINE ID = 'C2 H8 P1 N1 O4' WITH CHG = 0; # ID is the NL141
+DEFINE P203 = 'C[25] H[47] N[1] P[1] O[7]' WITH CHG = 1;
+DEFINE P225 = 'C[27] H[47] N[1] P[1] O[7]' WITH CHG = 1;
+DEFINE P161 = 'C[21] H[43] N[1] P[1] O[7]' WITH CHG = 1;
+
+IDENTIFY
+PR1 IN MS1+ 
+AND PR2 IN MS2+
+AND ID IN MS2+
+AND NOT P203 IN MS1+
+AND NOT P225 IN MS2+
+AND NOT P161 IN MS2+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isOdd(PR1.chemsc[H])
+AND PR1.chemsc == PR2.chemsc
+AND PR1.chemsc[C] - PR1.chemsc[db] > 19
+
+REPORT
+
+NAME = "LPE(%d:%d)" % ((PR1.chemsc[C] - 5), (PR1.chemsc[db] - 0.5));
+CLASS = "LPET";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 5);
+db = "%d" %  (PR1.chemsc[db] - 0.5);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 38.2;
+INT = ID.intensity; ;
+

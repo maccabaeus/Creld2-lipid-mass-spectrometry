@@ -1,0 +1,26 @@
+QUERYNAME = LPEIS; 
+DEFINE PR1 = 'C[22] H[45] N[1] P[1] O[7]' WITH CHG = 1;
+DEFINE PR2 = 'C[22] H[45] N[1] P[1] O[7]' WITH CHG = 1;
+DEFINE ID = 'C2 H8 P1 N1 O4' WITH CHG = 0; # ID is the NL141
+
+IDENTIFY
+PR1 IN MS1+ 
+AND PR2 IN MS2+
+AND ID IN MS2+
+
+
+
+REPORT
+
+NAME = "LPE(%d:%d)" % ((PR1.chemsc[C] - 5), (PR1.chemsc[db] - 0.5));
+CLASS = "LPET";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 5);
+db = "%d" %  (PR1.chemsc[db] - 0.5);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 38.2;
+INT = ID.intensity; ;
+

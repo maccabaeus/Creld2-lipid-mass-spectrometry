@@ -1,0 +1,36 @@
+QUERYNAME = TAG; 
+DEFINE PR1 = 'C[40..61] H[80..140] N[1] O[6]' WITH DBR = (1.5,13), CHG = 1;
+DEFINE P521 = 'C[55] H[108] N[1] O[6]' WITH CHG = 1;DEFINE P520 = 'C[55] H[110] N[1] O[6]' WITH CHG = 1;
+DEFINE P541 = 'C[57] H[112] N[1] O[6]' WITH CHG = 1;
+DEFINE P5410 = 'C[57] H[114] N[1] O[6]' WITH CHG = 1;
+DEFINE P5610 = 'C[59] H[118] N[1] O[6]' WITH CHG = 1;
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND NOT P521 IN MS1+
+AND NOT P520 IN MS1+
+AND NOT P541 IN MS1+
+AND NOT P5410 IN MS1+
+AND NOT P5610 IN MS1+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])
+AND PR1.chemsc[C] - PR1.chemsc[db] > 47AND PR1.chemsc[C] - PR1.chemsc[db] < 56
+
+
+REPORT
+
+NAME = "TAG(%d:%d)" % ((PR1.chemsc[C] - 3), (PR1.chemsc[db] - 1));
+CLASS = "TACG";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 3);
+db = "%d" %  (PR1.chemsc[db] - 1);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 427.1;
+INT = PR1.intensity; ;
+

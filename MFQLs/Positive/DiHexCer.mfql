@@ -1,0 +1,32 @@
+QUERYNAME = DiHexCer;
+DEFINE PR1 = 'C[44..60] H[30..200] N[1] O[13]' WITH DBR = (0.5,6), CHG = 1;
+DEFINE FA1 ='C[20..50] H[20..200] O[13]' WITH DBR = (2,5), CHG = 0;
+DEFINE ID ='C[18] H[30..36] N[1]' WITH DBR = (1.5,2.5), CHG = +1;
+
+IDENTIFY
+PR1 IN MS1+ AND
+FA1 IN MS2+ AND
+ID IN MS2+
+
+SUCHTHAT
+FA1.chemsc + ID.chemsc == PR1.chemsc
+AND isEven(PR1.chemsc[C])
+AND isEven(PR1.chemsc[H]) 
+AND isEven(ID.chemsc[C])
+AND FA1.chemsc[C]  > 18
+AND (PR1.chemsc[C]/2) - FA1.chemsc[db] > 19
+REPORT 
+NAME = "DiHexCer(d%d:%d/%d:%d)" % ((ID.chemsc[C]), (ID.chemsc[db] - 1), (FA1.chemsc[C] - 12), (FA1.chemsc[db] - 2));	
+CLASS = "LACC";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (FA1.chemsc[C] - 12);
+db = "%d" %  (FA1.chemsc[db] - 2);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 55.2;
+INT = ID.intensity; ;
+
+
+

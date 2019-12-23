@@ -1,0 +1,41 @@
+QUERYNAME = PCOPR2; 
+DEFINE PR1 = 'C[40..50] H[50..130] N[1] P[1] O[7]' WITH DBR = (1.5,9), CHG = 1;
+DEFINE PR2 = 'C[40..50] H[50..130] N[1] P[1] O[7]' WITH DBR = (1.5,9), CHG = 1;
+DEFINE IS = 'H81 C40 N1 O7 P1' WITH CHG = 1;
+DEFINE PE1 = 'H75 C38 N1 O7 P1 ' WITH CHG = 1;
+DEFINE PE2 = 'H73 C40 N1 O7 P1 ' WITH CHG = 1;
+DEFINE ID = 'C5 H15 P1 N1 O4' WITH CHG = 1; # ID is the PC head
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND PR2 IN MS2+
+AND ID IN MS2+
+AND NOT IS IN MS1+
+AND NOT PE1 IN MS1+
+AND NOT PE2 IN MS1+
+
+
+
+
+SUCHTHAT
+isEven(PR1.chemsc[C]) AND
+isOdd(PR1.chemsc[H])
+AND PR1.chemsc == PR2.chemsc
+AND (PR1.chemsc[C]/2) - PR1.chemsc[db] > 17
+
+
+REPORT
+
+NAME = "PC-O(%d:%d)" % ((PR1.chemsc[C] - 8), (PR1.chemsc[db] - 1));
+CLASS = "PC-O";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 8);
+db = "%d" %  (PR1.chemsc[db] - 1);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 396.2;
+INT = PR2.intensity; ;
+

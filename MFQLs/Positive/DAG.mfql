@@ -1,0 +1,31 @@
+QUERYNAME = DAG; 
+DEFINE PR1 = 'C[31..41] H[44..100] N[1] O[5]' WITH DBR = (0.5, 8), CHG = 1;
+DEFINE ID = 'N1 H5 O1' WITH CHG = 0; #combined loss of NH3 and H2O
+
+
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])
+AND (PR1.chemsc[C]/2) - PR1.chemsc[db] > 14
+
+
+REPORT
+
+NAME = "DAG(%d:%d)" % ((PR1.chemsc[C] - 3), (PR1.chemsc[db]));
+CLASS = "DACG";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 3);
+db = "%d" %  (PR1.chemsc[db]);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 64.3;
+INT = ID.intensity; ;
+

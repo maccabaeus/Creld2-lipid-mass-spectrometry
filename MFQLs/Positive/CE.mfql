@@ -1,0 +1,28 @@
+QUERYNAME = CE; 
+DEFINE PR1 = 'C[39..51] H[60..130] N[1] O[2]' WITH DBR = (4.5,9), CHG = 1;
+DEFINE ID = 'C27 H45' WITH CHG = 1;
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])
+AND PR1.chemsc[C] - PR1.chemsc[db] > 36
+
+
+REPORT
+
+NAME = "CE(%d:%d)" % ((PR1.chemsc[C] - 27), (PR1.chemsc[db] - 4));
+CLASS = "CHES";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 27);
+db = "%d" %  (PR1.chemsc[db] - 4);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 111.6;
+INT = ID.intensity; ;

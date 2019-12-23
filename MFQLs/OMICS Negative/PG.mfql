@@ -1,0 +1,21 @@
+QUERYNAME = PG; 
+DEFINE PR1 = 'C[34..50] H[30..120] O[10] P[1]' WITH DBR = (2.5,8.5), CHG = -1;DEFINE PR2 = 'C[34..50] H[30..120] O[10] P[1]' WITH DBR = (2.5,8.5), CHG = -1;DEFINE FA1 ='C[14..22] H[20..50] O[2]' WITH DBR = (1.5,7.5), CHG = -1;DEFINE FA2 ='C[14..22] H[20..50] O[2]' WITH DBR = (1.5,7.5), CHG = -1;DEFINE ID = 'C3 H8 P1 O6' WITH CHG = -1;IDENTIFY 	PR1 IN MS1-  ANDPR2 IN MS2-  ANDFA1 in MS2- ANDFA2 in MS2- AND
+ID IN MS2-SUCHTHAT isEven(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H]) ANDisEven(FA1.chemsc[C]) ANDisEven(FA2.chemsc[C]) ANDFA1.chemsc + FA2.chemsc + 'C6 H12 P1 O6' == PR1.chemsc
+AND PR1.chemsc == PR2.chemsc
+#AND PR1.intensity > 10#AND PR2.intensity > 10
+#AND FA1.intensity > 10
+#AND FA2.intensity > 10
+#AND ID.intensity > 20
+#OR PR1.chemsc == 'C43 H82 O13 P1'
+
+REPORT
+
+NAME = "PG(%d:%d)" % ((PR1.chemsc[C] - 6), (PR1.chemsc[db] - 2));
+chemsc = PR1.chemsc;
+db = "%d" %  (PR1.chemsc[db] - 2);MASS = "%4.4f" % "(PR1.mass)";ERROR = "%2.2fppm" % "(PR1.errppm)";
+SPACE = " ";
+#INTPR1 = PR1.intensity;#INTPR2 = PR2.intensity;
+ISpmol = 51.6;
+INT = ID.intensity; ;
+

@@ -1,0 +1,29 @@
+QUERYNAME = PIISPOS; 
+DEFINE PR1 = 'C[43] H[87] N1  P[1] O[13]' WITH  CHG = 1;
+DEFINE ID = 'C[6] H[16] N1 O[9] P[1]' WITH CHG = 0; # ID is the NL PI head  plus NH3 277.056
+
+
+
+
+IDENTIFY
+
+PR1 IN MS1+
+
+AND ID IN MS2+
+
+
+
+
+
+REPORT
+
+NAME = "PI-IS(%d:%d)" % ((PR1.chemsc[C] - 9), (PR1.chemsc[db] - 1));
+CLASS = "PHIN";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+db = "%d" %  (PR1.chemsc[db] - 1);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 80.6;
+INT = ID.intensity; ;

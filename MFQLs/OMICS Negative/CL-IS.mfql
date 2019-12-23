@@ -1,0 +1,24 @@
+QUERYNAME = CLIS; 
+DEFINE PR1 = 'C65 H125 O[17] P[2]' WITH CHG = -1;
+DEFINE PR2 = 'C65 H125 O[17] P[2]' WITH CHG = -1;
+
+
+IDENTIFY
+
+PR1 IN MS1- 
+AND PR2 IN MS2-
+
+
+
+REPORT
+
+NAME = "CL(%d:%d)" % ((PR1.chemsc[C] - 9), (PR1.chemsc[db] - 5));
+CLASS = "CARD";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+db = "%d" %  (PR1.chemsc[db] - 5);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 28.6;
+INT = PR2.intensity; ;

@@ -1,0 +1,24 @@
+QUERYNAME = CholesterolIS; 
+DEFINE PR1 = 'C27 H44 D6 N1 O1' WITH CHG = 1;
+DEFINE ID = 'C27 H39 D6' WITH CHG = 1; 
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+
+
+REPORT
+
+NAME = "Cholesterol-IS";
+CLASS = "CHOL";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "27";
+db = "1";
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 724;
+INT = ID.intensity; ;

@@ -1,0 +1,31 @@
+QUERYNAME = MAGIS; 
+DEFINE PR1 = 'C[20] H[42] N[1] O[4]' WITH DBR = (-0.5, 8), CHG = 1;
+DEFINE ID = 'N1 H5 O1' WITH CHG = 0; #combined loss of NH3 and H2O
+
+
+
+IDENTIFY
+
+PR1 IN MS1+ 
+AND ID IN MS2+
+
+SUCHTHAT
+
+isEven(PR1.chemsc[H])
+
+
+
+REPORT
+
+NAME = "MAG(%d:%d)" % ((PR1.chemsc[C] - 3), (PR1.chemsc[db] -(-1)));
+CLASS = "MACG";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 3);
+db = "%d" %  (PR1.chemsc[db] -(-1));
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 104;
+INT = ID.intensity; ;
+

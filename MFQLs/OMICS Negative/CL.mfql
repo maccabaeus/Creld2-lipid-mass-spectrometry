@@ -1,0 +1,30 @@
+QUERYNAME = CL; 
+DEFINE PR1 = 'C[66..87] H[90..180] O[17] P[2]' WITH DBR = (4.5,16), CHG = -1;
+DEFINE PR2 = 'C[66..87] H[90..180] O[17] P[2]' WITH DBR = (4.5,16), CHG = -1;
+
+
+IDENTIFY
+
+PR1 IN MS1- 
+AND PR2 IN MS2-
+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C])
+AND isOdd(PR1.chemsc[H])
+AND PR1.chemsc == PR2.chemsc
+#AND PR1.intensity > 50
+
+REPORT
+
+NAME = "CL(%d:%d)" % ((PR1.chemsc[C] - 9), (PR1.chemsc[db] - 5));
+CLASS = "CARD";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 9);
+db = "%d" %  (PR1.chemsc[db] - 5);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 28.6;
+INT = PR2.intensity; ;

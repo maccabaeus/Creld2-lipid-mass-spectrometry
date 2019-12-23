@@ -1,0 +1,31 @@
+
+
+QUERYNAME = HexCerIS;
+DEFINE PR1 = 'C36 H70 O8 N1' WITH CHG = 1;
+DEFINE FA1 ='C[10..40] H[20..200] O[8]' WITH DBR = (1,5), CHG = 0;
+DEFINE ID ='C[16..20] H[28..40] N[1]' WITH DBR = (1.5,2.5), CHG = +1;
+
+IDENTIFY
+PR1 IN MS1+ AND
+FA1 IN MS2+ AND
+ID IN MS2+
+
+SUCHTHAT
+FA1.chemsc + ID.chemsc == PR1.chemsc
+AND isEven(ID.chemsc[C])AND FA1.chemsc[db] == 1
+
+REPORT 
+NAME = "HexCer(d%d:%d/%d:%d)" % ((ID.chemsc[C]), (ID.chemsc[db] - 1), (FA1.chemsc[C] - 6), (FA1.chemsc[db] - 1));	
+CLASS = "HEXC";
+SAMPLE = "0";
+IS = "1";
+chemsc = PR1.chemsc;
+C = "%d" %  (FA1.chemsc[C] - 6);
+db = "%d" %  (FA1.chemsc[db] - 1);
+MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 55.2;
+INT = ID.intensity; ;
+
+
+

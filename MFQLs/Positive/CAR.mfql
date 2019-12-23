@@ -1,0 +1,29 @@
+QUERYNAME = Car; 
+DEFINE PR1 = 'C[21..25] H[15..60] N[1] O[4]' WITH DBR = (1.5,4), CHG = 1;DEFINE PR2 = 'C[21..25] H[15..60] N[1] O[4]' WITH DBR = (1.5,4), CHG = 1;
+DEFINE PR3 = 'C[22] H[44] N[1] O[4]' WITH CHG = 1;
+DEFINE ID = 'C4 H5 O2' WITH CHG = 1; # ID is the butenoic acid ion
+
+IDENTIFY
+
+PR1 IN MS1+
+AND PR2 in MS2+
+AND ID in MS2+
+AND NOT PR3 IN MS2+
+
+SUCHTHAT
+isOdd(PR1.chemsc[C]) AND
+isEven(PR1.chemsc[H])AND PR1.chemsc == PR2. chemsc
+
+
+REPORT
+
+NAME = "Car(%d:%d)" % ((PR1.chemsc[C] - 7), (PR1.chemsc[db] - 1));
+CLASS = "CARN";
+SAMPLE = "1";
+IS = "0";
+chemsc = PR1.chemsc;
+C = "%d" %  (PR1.chemsc[C] - 7);
+db = "%d" %  (PR1.chemsc[db] - 1);MASS = "%4.4f" % "(PR1.mass)";
+ERROR = "%2.2f ppm" % "(PR1.errppm)";
+ISpmol = 46;
+INT = ID.intensity; ;
